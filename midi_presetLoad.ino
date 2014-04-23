@@ -5,13 +5,14 @@
 #include "knubUtils.h"
 #include "knubMidi.h"
 
-byte baseIndx  = 5;
-
-uint16_t presetIndx = 0;
+unsigned int baseIndx  = 5;
+unsigned val;
+char tmpStr[8];
+unsigned int  presetIndx = 0;
 
 void setup(){
-	
 
+	
 	Serial.begin(9600);
 	
 	Wire.begin();
@@ -20,52 +21,58 @@ void setup(){
 	Serial.println("STARTING");
 		eraseEE();
 	Serial.println("DONE ERASING");
-	
-	// Serial.println("READING EE");
-	// readEE();
-	// Serial.println("DONE READING EE");
 
+
+	/////!!!! this works put in a for loop
+
+	
+for(int i =0; i<5;i++){
+
+	String stringOne = "PGM   ";
+	
+	stringOne += i+1;
+	
+	char charBuf[8];
+	stringOne.toCharArray(charBuf, 8);
+	
+	for(int j = 0;j<8;j++){
+		currentPreset.name[j] =  charBuf[j];
+	}
+	Serial.println(sizeof(charBuf)/sizeof(char));
 	Serial.println("WRITING PRESETS");
-	
-	writeAPreset(0, 5);
-	delay(10);
-	
-	
-	writeAPreset(1, 6);
-	delay(10);
-	
-	
-	writeAPreset(2, 7);
-	delay(10);
-	
-	writeAPreset(3, 8);
-	delay(10);
-	
-
-
-	readAPreset(5);
-	delay(10);
-	readAPreset(6);
-	delay(10);
-	readAPreset(7);
-	delay(10);
-	readAPreset(8);
-
-	// writeAPreset(9, 4);
-	// delay(10);
-	// readAPreset(9);
-	// writeAPreset(10, 5);
-	// delay(10);
-	// readAPreset(10);
-	// writeAPreset(11, 6);
-	// delay(10);
-	// readAPreset(11);
-	// writeAPreset(12, 7);
-	// delay(10);
-	// readAPreset(12);
-
-
+	writeAPreset(0, i+baseIndx);
+	delay(100);
 	Serial.println("DONE WRITING PRESETS");
+	// Serial.println(currentPreset.name);
+	// Serial.println(sizeof(currentPreset.name)/sizeof(char));
+	// delay(100);
+}
+
+
+
+	////////////++++++++++++++++++++++++++++++++
+
+	
+	
+	// writeAPreset(0, 5);
+	// delay(10);
+	
+	
+	// writeAPreset(1, 6);
+	// delay(10);
+	
+	
+	// writeAPreset(2, 7);
+	// delay(10);
+	
+	// writeAPreset(3, 8);
+	// delay(10);
+	
+
+	for(int i = 0; i<10;i++){
+		readAPreset(i+5);
+		delay(20);
+	}
 }
 
 
@@ -97,7 +104,7 @@ void readEE(){
 }
 
 
-void readAPreset(uint8_t pIndx){
+void readAPreset(unsigned int pIndx){
 
 	presetIndx = ((pIndx - baseIndx)*presetSize)+baseIndx;
 
@@ -123,7 +130,7 @@ void writeAPreset(uint8_t wich, uint8_t pIndx){
 	switch(wich){
 
 		case 0:
-			writeKnubPreset(eepromAddr1, presetIndx, &preset1);
+			writeKnubPreset(eepromAddr1, presetIndx, &currentPreset);
 		break;
 		case 1:
 			writeKnubPreset(eepromAddr1, presetIndx, &preset2);
@@ -134,18 +141,18 @@ void writeAPreset(uint8_t wich, uint8_t pIndx){
 		case 3:
 			writeKnubPreset(eepromAddr1, presetIndx, &preset4);
 		break;
-		case 4:
-			writeKnubPreset(eepromAddr1, presetIndx, &preset5);
-		break;
-		case 5:
-			writeKnubPreset(eepromAddr1, presetIndx, &preset6);
-		break;
-		case 6:
-			writeKnubPreset(eepromAddr1, presetIndx, &preset7);
-		break;
-		case 7:
-			writeKnubPreset(eepromAddr1, presetIndx, &preset8);
-		break;
+		// case 4:
+		// 	writeKnubPreset(eepromAddr1, presetIndx, &preset5);
+		// break;
+		// case 5:
+		// 	writeKnubPreset(eepromAddr1, presetIndx, &preset6);
+		// break;
+		// case 6:
+		// 	writeKnubPreset(eepromAddr1, presetIndx, &preset7);
+		// break;
+		// case 7:
+		// 	writeKnubPreset(eepromAddr1, presetIndx, &preset8);
+		// break;
 	}
 	
 	Serial.println("Done writing");
