@@ -18,7 +18,7 @@
 
 struct aKnub{
   char name[maxNameLength];
-  byte params[3];
+  byte params[paramLength];
   byte modOn;
   byte state;
   byte numLoop;
@@ -29,7 +29,7 @@ typedef struct aKnub aKnub;
 struct aKnubPreset{
   
   char name[maxNameLength];
-  byte ID[6];
+  byte ID[IDLength];
   
   aKnub knubbies[numKnubbies];
 };
@@ -64,18 +64,7 @@ byte readByte( int deviceaddress, unsigned int eeaddress ) {
 
   void writeKnubPresetName( int deviceaddress, unsigned int eeaddresspage, aKnubPreset *kpreset ) {
     
-    /*
-    Wire.beginTransmission(deviceaddress);
-    Wire.write((int)(eeaddresspage >> 8)); // MSB
-    Wire.write((int)(eeaddresspage & 0xFF)); // LSB
-    
-    for ( byte c = 0; c < maxNameLength; c++){
-      Wire.write(kpreset->name[c]);
-      delay(5);
-    }
-    Wire.endTransmission();
-    */
-
+ 
     for(uint8_t i = 0; i<maxNameLength; i++){
 
       writeByte(deviceaddress, eeaddresspage+i, kpreset->name[i]);
@@ -87,19 +76,7 @@ byte readByte( int deviceaddress, unsigned int eeaddress ) {
 
   void writeKnubPresetID(int deviceaddress, unsigned int eeaddresspage, aKnubPreset *kpreset){
 
-    // Wire.beginTransmission(deviceaddress);
-    // Wire.write((int)eeaddresspage >> 8);
-    // Wire.write((int)(eeaddresspage & 0xFF)); // LSB
-    
-    
-    // for (byte c = 0; c < IDLength; c++){
-    //   Wire.write(kpreset->ID[c]);
-    //   delay(5);
-    // }
-    
-    // Wire.endTransmission();
-  
-    for(uint8_t i = 0; i<6;i++){
+  for(uint8_t i = 0; i<6;i++){
 
       writeByte(deviceaddress, eeaddresspage+i,kpreset->ID[i]);
 
@@ -109,41 +86,17 @@ byte readByte( int deviceaddress, unsigned int eeaddress ) {
   }
 
   void writeKnubbieName(int deviceaddress, unsigned int eeaddresspage, aKnubPreset *kpreset, uint8_t knubbieIndx){
-    /*
-    Wire.beginTransmission(deviceaddress);
-    Wire.write((int)eeaddresspage >> 8);
-     Wire.write((int)(eeaddresspage & 0xFF)); // LSB
-    
-    for (byte c = 0; c < maxNameLength; c++){
-    
-      Wire.write(kpreset->knubbies[knubbieIndx].name[c]);
-      delay(5);
-    }
-    Wire.endTransmission();
-    */
 
     for(uint8_t i =0 ; i<maxNameLength;i++){
 
       writeByte(deviceaddress, eeaddresspage+i, kpreset->knubbies[knubbieIndx].name[i]);
-
-
-
     }
 
   }
   
  void writeKnubbieParams(int deviceaddress, unsigned int eeaddresspage, aKnubPreset *kpreset, uint8_t knubbieIndx){
 
-    // Wire.beginTransmission(deviceaddress);
-    // Wire.write((int)eeaddresspage >> 8);
-    // Wire.write((int)(eeaddresspage & 0xFF)); // LSB
     
-    
-    // for ( byte c = 0; c < paramLength; c++){
-    //   Wire.write(kpreset->knubbies[knubbieIndx].params[c]);
-    //   delay(5);
-    // }
-    // Wire.endTransmission();
 
     for(uint8_t i = 0; i<3;i++){
 
@@ -155,49 +108,21 @@ byte readByte( int deviceaddress, unsigned int eeaddress ) {
 
 void writeKnubbiemodOn(int deviceaddress, unsigned int eeaddresspage, aKnubPreset *kpreset, uint8_t knubbieIndx){
 
-    // Wire.beginTransmission(deviceaddress);
-    // Wire.write((int)eeaddresspage >> 8);
-    // Wire.write((int)(eeaddresspage & 0xFF)); // LSB
-    
-    
-    // for ( byte c = 0; c < modOnLength; c++){
-    //   Wire.write(kpreset->knubbies[knubbieIndx].modOn);
-    //   delay(5);
-    //   }
-    //   Wire.endTransmission();
-
+   
     writeByte(deviceaddress, eeaddresspage, kpreset->knubbies[knubbieIndx].modOn);
 
   }
 
 void writeKnubbieModState(int deviceaddress, unsigned int eeaddresspage, aKnubPreset *kpreset, uint8_t knubbieIndx){
 
-    // Wire.beginTransmission(deviceaddress);
-    // Wire.write((int)eeaddresspage >> 8);
-    // Wire.write((int)(eeaddresspage & 0xFF)); // LSB
-    
-    
-    // for (byte  c = 0; c < stateLength; c++){
-    //   Wire.write(kpreset->knubbies[knubbieIndx].state);
-    //   delay(5);
-    // }
-    // Wire.endTransmission();
+
     writeByte(deviceaddress, eeaddresspage, kpreset->knubbies[knubbieIndx].state);
   }
 
 void writeKnubbieNumLoop(int deviceaddress, unsigned int eeaddresspage, aKnubPreset *kpreset, uint8_t knubbieIndx){
 
-    // Wire.beginTransmission(deviceaddress);
-    // Wire.write((int)eeaddresspage >> 8);
-    // Wire.write((int)(eeaddresspage & 0xFF)); // LSB
-    
-    
-    // for (byte c = 0; c < numLoopLength; c++){
-    //   Wire.write(kpreset->knubbies[knubbieIndx].numLoop);
-    //   delay(5);
-    // }
-    // Wire.endTransmission();
-  writeByte(deviceaddress, eeaddresspage, kpreset->knubbies[knubbieIndx].numLoop);
+
+    writeByte(deviceaddress, eeaddresspage, kpreset->knubbies[knubbieIndx].numLoop);
   }
 
 
@@ -265,7 +190,7 @@ void readKnubbieParams(int deviceaddress, unsigned int eeaddress, aKnubPreset *k
 void readKnubbiemodOn(int deviceaddress, unsigned int eeaddress, aKnubPreset *kpreset, uint8_t knubbieIndx){
 
 
-  Wire.beginTransmission(deviceaddress);
+    Wire.beginTransmission(deviceaddress);
     Wire.write((int)(eeaddress >> 8)); // MSB
     Wire.write((int)(eeaddress & 0xFF)); // LSB
     Wire.endTransmission();
@@ -353,55 +278,33 @@ void writeKnubPreset(int deviceaddress, unsigned int eeaddress, aKnubPreset *kpr
     //so now eeaddress is maxNameLength + IDLength
     unsigned int addrPtr = eeaddress + maxNameLength + IDLength;
     
-    
-    //writeKnubbieName(deviceaddress, addrPtr, kpreset, 0);
-    //delay(saveTime);
-
+    Serial.println("Done writing name and ID");
+    Serial.println(addrPtr);
    
+
    for(int i = 0; i<numKnubbies; i++){
      
      ///move addrPtr to start of knubbie
      addrPtr = addrPtr*(i+1);
      
-     //delay(saveTime);
+     Serial.print("addrPtr= ");
+     Serial.println(addrPtr);
+  
      writeKnubbieName(deviceaddress,addrPtr , kpreset, i);
-     
      delay(saveTime);
      
      writeKnubbieParams(deviceaddress, addrPtr+maxNameLength, kpreset, i);
      delay(saveTime);  
+     
      writeKnubbiemodOn(deviceaddress, addrPtr+maxNameLength+paramLength, kpreset, i);
      delay(saveTime);
+     
      writeKnubbieModState(deviceaddress, addrPtr+maxNameLength+paramLength+modOnLength, kpreset, i);
      delay(saveTime);
+     
      writeKnubbieNumLoop(deviceaddress, addrPtr+maxNameLength+paramLength+modOnLength+stateLength, kpreset, i);
-    delay(saveTime);
+     delay(saveTime);
    }
-   
-   
-   
 }
-//single read/write functions
-
- byte i2c_eeprom_read_byte( int deviceaddress, unsigned int eeaddress ) {
-    
-    Wire.beginTransmission(deviceaddress);
-    Wire.write((int)(eeaddress >> 8)); // MSB
-    Wire.write((int)(eeaddress & 0xFF)); // LSB
-    Wire.endTransmission();
-    
-    Wire.requestFrom(deviceaddress,1);
-    if (Wire.available());
-    return Wire.read();
-  }
-
-   void i2c_eeprom_write_byte( int deviceaddress, unsigned int eeaddress, byte data ) {
-    
-    Wire.beginTransmission(deviceaddress);
-    Wire.write((int)(eeaddress >> 8)); // MSB
-    Wire.write((int)(eeaddress & 0xFF)); // LSB
-    Wire.write(data);
-    Wire.endTransmission();
-  }
 
 

@@ -25,7 +25,7 @@ void setup(){
 	for(int i =0; i<10; i++){
 		
 		//currentPreset.name[6] = i;
-
+		Serial.println(i+1);
 		writeAPreset(0, i);
 		delay(100);
 		readAPreset(0);
@@ -70,12 +70,12 @@ void readAPreset(unsigned int pIndx){
 	delay(100);
 	printCurrentPreset();
 	delay(100);
-	presetIndx = 0;
+	//presetIndx = 0;
 }
 
 void writeAPreset(unsigned int wich, unsigned int pIndx){
 
-	Serial.println(pIndx);
+
 
 	presetIndx = ((pIndx - baseIndx)*presetSize)+baseIndx;
 	
