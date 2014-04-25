@@ -17,14 +17,19 @@ void setup(){
 	Wire.begin();
 	delay(500);
 	
-	Serial.println("STARTING");
-		eraseEE();
-	Serial.println("DONE ERASING");
+	// Serial.println("STARTING");
+	// 	eraseEE();
+	// Serial.println("DONE ERASING");
 
-	writeAPreset(0, 0);
-	delay(100);
-	readAPreset(0);
+	
+	for(int i =0; i<10; i++){
+		
+		//currentPreset.name[6] = i;
 
+		writeAPreset(0, i);
+		delay(100);
+		readAPreset(0);
+	}
 	
 }
 

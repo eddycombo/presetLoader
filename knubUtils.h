@@ -21,11 +21,11 @@ void printCurrentPreset(){
    	//Serial.println(currentPreset.knubbies[0].name);
    	
    	for(int i = 0; i<numKnubbies; i++){
-   		for (int j = 0; j<8;j++)
-   			Serial.print((char)currentPreset.knubbies[i].name[j]);
-   		}
+   		
+   			Serial.print(currentPreset.knubbies[i].name);
+   		
    	Serial.println(";");
-   	   	
+}   	   	
  	
  	
  	Serial.println("----------------------");
