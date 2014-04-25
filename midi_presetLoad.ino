@@ -22,7 +22,7 @@ void setup(){
 	// Serial.println("DONE ERASING");
 
 	
-	for(int i =0; i<10; i++){
+	for(int i =0; i<20; i++){
 		
 		//currentPreset.name[6] = i;
 		Serial.println(i+1);
